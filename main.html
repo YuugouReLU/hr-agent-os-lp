@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR-Agent-OS | 管理をゼロに、対話を最大に。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c-bg: #FAFAF8;
+  --c-bg-dark: #0D0F14;
+  --c-surface: #FFFFFF;
+  --c-surface-alt: #F3F2EE;
+  --c-primary: #1A1A2E;
+  --c-accent: #6C5CE7;
+  --c-accent-light: #A29BFE;
+  --c-accent-glow: rgba(108, 92, 231, 0.15);
+  --c-green: #00B894;
+  --c-green-light: #E8FBF5;
+  --c-orange: #F39C12;
+  --c-text: #1A1A2E;
+  --c-text-sub: #6B7280;
+  --c-border: #E5E5E0;
+  --font-display: 'Plus Jakarta Sans', 'Noto Sans JP', sans-serif;
+  --font-body: 'Noto Sans JP', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--c-text);
+  background: var(--c-bg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== UTILITY ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 60px);
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 18px 0;
+  background: rgba(250, 250, 248, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+nav.scrolled { border-bottom-color: var(--c-border); }
+
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: var(--c-primary);
+}
+.nav-logo span { color: var(--c-accent); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--c-text-sub);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--c-text); }
+
+.nav-cta {
+  background: var(--c-primary) !important;
+  color: #fff !important;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600 !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+}
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(26,26,46,0.2);
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding: 160px 0 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, var(--c-accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: var(--c-accent-glow);
+  border: 1px solid rgba(108, 92, 231, 0.2);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-accent);
+  margin-bottom: 28px;
+  animation: fadeInUp 0.8s ease both;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--c-accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--c-primary);
+  margin-bottom: 10px;
+  animation: fadeInUp 0.8s 0.1s ease both;
+}
+
+.hero-accent-text {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--c-accent) 0%, var(--c-accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 32px;
+  animation: fadeInUp 0.8s 0.2s ease both;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  line-height: 1.85;
+  color: var(--c-text-sub);
+  max-width: 580px;
+  animation: fadeInUp 0.8s 0.3s ease both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+  animation: fadeInUp 0.8s 0.4s ease both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: var(--c-accent);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 24px rgba(108, 92, 231, 0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(108, 92, 231, 0.4);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: transparent;
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1.5px solid var(--c-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.btn-secondary:hover {
+  border-color: var(--c-text);
+  background: var(--c-surface);
+}
+
+/* ===== SOCIAL PROOF ===== */
+.social-proof {
+  padding: 60px 0;
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+.social-proof .container {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+.social-proof-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-text-sub);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.social-proof-stats {
+  display: flex;
+  gap: 48px;
+  flex: 1;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--c-primary);
+  letter-spacing: -0.03em;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--c-text-sub);
+  margin-top: 2px;
+}
+
+/* ===== PROBLEM SECTION ===== */
+.problem {
+  padding: 120px 0;
+}
+
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--c-accent);
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--c-primary);
+  margin-bottom: 20px;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--c-text-sub);
+  max-width: 600px;
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-top: 60px;
+  align-items: start;
+}
+
+.problem-visual {
+  background: var(--c-bg-dark);
+  border-radius: 20px;
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.problem-visual::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(108,92,231,0.15) 0%, transparent 70%);
+}
+
+.workflow-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.workflow-item:last-child { border-bottom: none; }
+
+.workflow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.workflow-dot.red { background: #EF4444; }
+.workflow-dot.orange { background: var(--c-orange); }
+.workflow-dot.yellow { background: #FBBF24; }
+
+.workflow-label {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+  flex: 1;
+}
+
+.workflow-time {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.problem-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.problem-stat-card {
+  padding: 28px 32px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  transition: all 0.3s;
+}
+.problem-stat-card:hover {
+  border-color: var(--c-accent);
+  box-shadow: 0 8px 32px var(--c-accent-glow);
+}
+
+.problem-stat-number {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--c-accent);
+  letter-spacing: -0.03em;
+}
+
+.problem-stat-text {
+  font-size: 0.9rem;
+  color: var(--c-text-sub);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+/* ===== FEATURES ===== */
+.features {
+  padding: 120px 0;
+  background: var(--c-surface-alt);
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+.features-header .section-desc {
+  margin: 0 auto;
+}
+
+.feature-card-large {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  transition: all 0.4s;
+}
+.feature-card-large:hover {
+  box-shadow: 0 24px 64px rgba(0,0,0,0.06);
+  transform: translateY(-4px);
+}
+
+.feature-info {
+  padding: 56px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 24px;
+}
+
+.feature-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--c-primary);
+  margin-bottom: 16px;
+}
+
+.feature-desc {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--c-text-sub);
+  margin-bottom: 28px;
+}
+
+.feature-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-green);
+  background: var(--c-green-light);
+  padding: 6px 14px;
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.feature-visual {
+  background: var(--c-surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+}
+
+.feature-mockup {
+  width: 90%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  border: 1px solid var(--c-border);
+}
+
+.mockup-bar {
+  height: 36px;
+  background: #F9FAFB;
+  border-bottom: 1px solid var(--c-border);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 6px;
+}
+.mockup-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E5E7EB;
+}
+
+.mockup-content {
+  padding: 20px;
+}
+
+.mockup-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: #F9FAFB;
+}
+.mockup-row:last-child { margin-bottom: 0; }
+
+.mockup-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--c-accent-light), var(--c-accent));
+}
+
+.mockup-text { flex: 1; }
+.mockup-text-line {
+  height: 8px;
+  background: #E5E7EB;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.mockup-text-line:last-child { margin-bottom: 0; width: 60%; }
+
+.mockup-score {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--c-green);
+}
+
+.mockup-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.badge-green { background: var(--c-green-light); color: var(--c-green); }
+.badge-orange { background: #FEF3C7; color: #D97706; }
+.badge-accent { background: var(--c-accent-glow); color: var(--c-accent); }
+
+/* Small feature cards */
+.features-grid-small {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.feature-card-small {
+  padding: 40px 36px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+.feature-card-small:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.06);
+  transform: translateY(-3px);
+}
+
+/* ===== HOW IT WORKS ===== */
+.how-it-works {
+  padding: 120px 0;
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 60px;
+}
+
+.step-card {
+  text-align: center;
+  padding: 48px 32px;
+  border-radius: 20px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  position: relative;
+  transition: all 0.3s;
+}
+.step-card:hover {
+  border-color: var(--c-accent);
+  box-shadow: 0 12px 40px var(--c-accent-glow);
+}
+
+.step-number {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 900;
+  color: rgba(108, 92, 231, 0.08);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.step-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  margin-bottom: 12px;
+}
+
+.step-desc {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--c-text-sub);
+}
+
+/* ===== EFFICIENCY ===== */
+.efficiency {
+  padding: 120px 0;
+  background: var(--c-bg-dark);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.efficiency::before {
+  content: '';
+  position: absolute;
+  top: -300px;
+  left: -300px;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(108,92,231,0.12) 0%, transparent 60%);
+}
+
+.efficiency .section-eyebrow { color: var(--c-accent-light); }
+.efficiency .section-title { color: #fff; }
+.efficiency .section-desc { color: rgba(255,255,255,0.6); }
+
+.efficiency-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.efficiency-card {
+  padding: 36px 28px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.3s;
+}
+.efficiency-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(108, 92, 231, 0.4);
+}
+
+.efficiency-before {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  text-decoration: line-through;
+  margin-bottom: 4px;
+}
+
+.efficiency-after {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--c-green);
+  letter-spacing: -0.03em;
+}
+
+.efficiency-label {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.efficiency-arrow {
+  font-size: 0.75rem;
+  color: var(--c-green);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* ===== CTA ===== */
+.cta {
+  padding: 120px 0;
+  text-align: center;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, var(--c-primary) 0%, #2D2B55 100%);
+  border-radius: 32px;
+  padding: 80px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(108,92,231,0.3) 0%, transparent 60%);
+}
+
+.cta-box::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0,184,148,0.15) 0%, transparent 60%);
+}
+
+.cta h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.cta p {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  line-height: 1.7;
+}
+
+.cta .btn-primary {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  color: var(--c-primary);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  font-size: 1rem;
+  padding: 18px 44px;
+}
+.cta .btn-primary:hover {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 48px 0;
+  border-top: 1px solid var(--c-border);
+}
+footer .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--c-primary);
+}
+.footer-logo span { color: var(--c-accent); }
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--c-text-sub);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .feature-card-large { grid-template-columns: 1fr; }
+  .features-grid-small { grid-template-columns: 1fr; }
+  .steps-container { grid-template-columns: 1fr; }
+  .efficiency-grid { grid-template-columns: repeat(2, 1fr); }
+  .social-proof .container { flex-direction: column; gap: 24px; }
+  .social-proof-stats { flex-wrap: wrap; gap: 32px; }
+  .hero-actions { flex-direction: column; }
+  .cta-box { padding: 60px 32px; }
+  footer .container { flex-direction: column; gap: 16px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-logo">HR-Agent-<span>OS</span></div>
+    <ul class="nav-links">
+      <li><a href="#problem">課題</a></li>
+      <li><a href="#features">機能</a></li>
+      <li><a href="#how">導入の流れ</a></li>
+      <li><a href="#cta" class="nav-cta">お問い合わせ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge" id="hero-badge">人材紹介エージェント向けAI業務OS</div>
+    <h1 id="hero-title">管理をゼロに、</h1>
+    <div class="hero-accent-text" id="hero-accent">対話を最大に。</div>
+    <p id="hero-desc">面談後の入力、煩雑なタスク管理、求人マッチング——<br>
+      「管理コスト」をAIで極限まで削減し、<br>
+      エージェントが求職者と向き合う時間を創出します。</p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">無料デモを予約 →</a>
+      <a href="#features" class="btn-secondary">機能を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof">
+  <div class="container">
+    <span class="social-proof-label">導入効果</span>
+    <div class="social-proof-stats" id="social-proof-stats">
+      <div class="stat-item">
+        <span class="stat-number">60%</span>
+        <span class="stat-label">管理業務の時間削減</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">1/3</span>
+        <span class="stat-label">CRM入力工数の削減</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">5min →</span>
+        <span class="stat-label">日程調整にかかる時間</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">AI</span>
+        <span class="stat-label">求人マッチング自動スコアリング</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-eyebrow">Problem</div>
+    <div class="section-title" id="problem-title">CAの時間は、<br>管理業務に奪われている。</div>
+    <div class="section-desc" id="problem-desc">
+      キャリアアドバイザーは数多くの求職者を担当するため、同一業務が何度も発生する構造になっています。本来の「対話」の時間が圧迫されています。
+    </div>
+
+    <div class="problem-grid reveal">
+      <div class="problem-visual" id="problem-visual">
+        <div class="workflow-item">
+          <span class="workflow-dot red"></span>
+          <span class="workflow-label">スカウトメール作成 ×100件</span>
+          <span class="workflow-time">17h</span>
+        </div>
+        <div class="workflow-item">
+          <span class="workflow-dot orange"></span>
+          <span class="workflow-label">ヒアリング・日程調整・議事録</span>
+          <span class="workflow-time">40h</span>
+        </div>
+        <div class="workflow-item">
+          <span class="workflow-dot yellow"></span>
+          <span class="workflow-label">応募書類作成・求人提案</span>
+          <span class="workflow-time">23h</span>
+        </div>
+        <div class="workflow-item">
+          <span class="workflow-dot orange"></span>
+          <span class="workflow-label">書類応募・面接日程・結果共有 ×150件</span>
+          <span class="workflow-time">75h</span>
+        </div>
+        <div class="workflow-item">
+          <span class="workflow-dot red"></span>
+          <span class="workflow-label">クロージング・入社対応</span>
+          <span class="workflow-time">7h</span>
+        </div>
+      </div>
+
+      <div class="problem-stats" id="problem-stats">
+        <div class="problem-stat-card">
+          <div class="problem-stat-number">162h</div>
+          <div class="problem-stat-text">1サイクルあたりの総工数。<br>その大半が繰り返し作業。</div>
+        </div>
+        <div class="problem-stat-card">
+          <div class="problem-stat-number">60%+</div>
+          <div class="problem-stat-text">入力・調整・確認に費やされる時間の割合。求職者との対話は後回しに。</div>
+        </div>
+        <div class="problem-stat-card">
+          <div class="problem-stat-number">×150件</div>
+          <div class="problem-stat-text">15名×10選考。同じ業務プロセスが何度も繰り返される。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header">
+      <div class="section-eyebrow">Features</div>
+      <div class="section-title" id="features-title">AIが、管理業務を引き受ける。</div>
+      <div class="section-desc" id="features-desc">4つのコア機能で、エージェントの生産性を根本から変えます。</div>
+    </div>
+
+    <!-- Feature 1: AI面談サマリー -->
+    <div class="feature-card-large reveal">
+      <div class="feature-info">
+        <div class="feature-icon" style="background: var(--c-accent-glow);">🧠</div>
+        <div class="feature-title">AI面談サマリー</div>
+        <div class="feature-desc">
+          面談メモや文字起こしから、スキル・希望条件を自動抽出。CRMへの入力を自動化し、アップデート箇所のみハイライト表示。確認するだけで完了します。
+        </div>
+        <div class="feature-tag">✓ 議事録作成・CRM入力を自動化</div>
+      </div>
+      <div class="feature-visual">
+        <div class="feature-mockup">
+          <div class="mockup-bar">
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+          </div>
+          <div class="mockup-content">
+            <div style="display:flex; gap:16px;">
+              <div style="flex:1;">
+                <div style="font-size:0.7rem; font-weight:700; margin-bottom:8px; color:var(--c-text);">面談メモ</div>
+                <div style="background:#F9FAFB; padding:12px; border-radius:8px; font-size:0.65rem; color:var(--c-text-sub); line-height:1.6;">
+                  現職：Web系自社サービス企業<br>フロントエンド中心（React）<br>実務3年目<br>希望：フルスタックも可<br>年収：500〜550万希望
+                </div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:0.7rem; font-weight:700; margin-bottom:8px; color:var(--c-text);">自動抽出</div>
+                <div style="padding:6px 0;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 10px; background:#F0FDF4; border-radius:6px; margin-bottom:4px;">
+                    <span style="font-size:0.65rem; color:var(--c-text-sub);">希望職種</span>
+                    <span class="mockup-badge badge-green">＋ Webエンジニア</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 10px; background:#FEF3C7; border-radius:6px; margin-bottom:4px;">
+                    <span style="font-size:0.65rem; color:var(--c-text-sub);">希望年収</span>
+                    <span class="mockup-badge badge-orange">変更 500万</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 10px; background:#F0FDF4; border-radius:6px;">
+                    <span style="font-size:0.65rem; color:var(--c-text-sub);">勤務形態</span>
+                    <span class="mockup-badge badge-green">＋ ハイブリッド</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 2: スマートマッチング -->
+    <div class="feature-card-large reveal" style="direction: rtl;">
+      <div class="feature-visual" style="direction: ltr;">
+        <div class="feature-mockup">
+          <div class="mockup-bar">
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+          </div>
+          <div class="mockup-content">
+            <div style="font-size:0.7rem; font-weight:700; margin-bottom:12px; color:var(--c-text);">マッチング結果</div>
+            <div class="mockup-row">
+              <div class="mockup-avatar"></div>
+              <div class="mockup-text">
+                <div style="font-size:0.72rem; font-weight:600; color:var(--c-text); margin-bottom:2px;">UIデザイナー</div>
+                <div style="font-size:0.6rem; color:var(--c-text-sub);">グローバルDXパートナーズ株式会社</div>
+              </div>
+              <div class="mockup-score">88点</div>
+            </div>
+            <div class="mockup-row">
+              <div class="mockup-avatar" style="background: linear-gradient(135deg, #00B894, #55E6C1);"></div>
+              <div class="mockup-text">
+                <div style="font-size:0.72rem; font-weight:600; color:var(--c-text); margin-bottom:2px;">シニアフロントエンドエンジニア</div>
+                <div style="font-size:0.6rem; color:var(--c-text-sub);">テックスタート株式会社</div>
+              </div>
+              <div class="mockup-score">78点</div>
+            </div>
+            <div class="mockup-row" style="background: #F0F0FF;">
+              <div class="mockup-avatar" style="background: linear-gradient(135deg, #F39C12, #FDCB6E);"></div>
+              <div class="mockup-text">
+                <div style="font-size:0.72rem; font-weight:600; color:var(--c-text); margin-bottom:2px;">フルスタックエンジニア</div>
+                <div style="font-size:0.6rem; color:var(--c-text-sub);">AI Ventures株式会社</div>
+              </div>
+              <div class="mockup-score" style="color: var(--c-accent);">74点</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="feature-info" style="direction: ltr;">
+        <div class="feature-icon" style="background: var(--c-green-light);">🎯</div>
+        <div class="feature-title">スマートマッチング</div>
+        <div class="feature-desc">
+          抽出されたスキル・希望条件データに基づき、求人との適合度をスコアリング。マッチ理由と懸念点も自動で提示し、提案の質を飛躍的に向上させます。
+        </div>
+        <div class="feature-tag">✓ 求人提案のスコアリングを自動化</div>
+      </div>
+    </div>
+
+    <!-- Feature 3 & 4: Small cards -->
+    <div class="features-grid-small" style="margin-top: 32px;">
+      <div class="feature-card-small reveal">
+        <div class="feature-icon" style="background: #FEF3C7;">📅</div>
+        <div class="feature-title">オート日程調整</div>
+        <div class="feature-desc">
+          Googleカレンダー等と連携し、日程調整から面談URL発行まで自動で完了。必要な操作はボタンクリック1回のみ。
+        </div>
+        <div class="feature-tag">✓ ヒアリング・面談日程調整を自動化</div>
+      </div>
+      <div class="feature-card-small reveal">
+        <div class="feature-icon" style="background: #EDE9FE;">📋</div>
+        <div class="feature-title">タスクベース実態管理</div>
+        <div class="feature-desc">
+          選考ステップごとのステータスを直感的に管理。マルチタスクの負担を軽減し、対応漏れや歩留まりを一目で把握できます。
+        </div>
+        <div class="feature-tag">✓ 対応漏れ・歩留まりを可視化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how">
+  <div class="container">
+    <div style="text-align: center;">
+      <div class="section-eyebrow">How It Works</div>
+      <div class="section-title">シンプルな3ステップで導入</div>
+    </div>
+    <div class="steps-container">
+      <div class="step-card reveal">
+        <div class="step-number">01</div>
+        <div class="step-title">ヒアリング</div>
+        <div class="step-desc">現在のワークフローと課題を把握。最適な導入プランをご提案します。</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-number">02</div>
+        <div class="step-title">セットアップ</div>
+        <div class="step-desc">既存のカレンダー・CRMと連携。最短1週間で運用開始できます。</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-number">03</div>
+        <div class="step-title">運用開始</div>
+        <div class="step-desc">AIが学習を開始。使うほどマッチング精度が向上し、業務効率が加速します。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EFFICIENCY -->
+<section class="efficiency">
+  <div class="container">
+    <div style="text-align: center; position: relative; z-index: 1;">
+      <div class="section-eyebrow">Impact</div>
+      <div class="section-title">AI導入で、時間が変わる。</div>
+      <div class="section-desc" style="margin: 0 auto;">各業務プロセスにおける削減効果</div>
+    </div>
+
+    <div class="efficiency-grid" style="position: relative; z-index: 1;">
+      <div class="efficiency-card reveal">
+        <div class="efficiency-before">10分 / 件</div>
+        <div class="efficiency-after">1 min</div>
+        <div class="efficiency-label">議事録作成・<br>CRM入力</div>
+        <div class="efficiency-arrow">▼ 90% 削減</div>
+      </div>
+      <div class="efficiency-card reveal">
+        <div class="efficiency-before">5分 / 件</div>
+        <div class="efficiency-after">1 click</div>
+        <div class="efficiency-label">日程調整</div>
+        <div class="efficiency-arrow">▼ ほぼゼロに</div>
+      </div>
+      <div class="efficiency-card reveal">
+        <div class="efficiency-before">60分 / 人</div>
+        <div class="efficiency-after">10 min</div>
+        <div class="efficiency-label">求人提案・<br>マッチング</div>
+        <div class="efficiency-arrow">▼ 83% 削減</div>
+      </div>
+      <div class="efficiency-card reveal">
+        <div class="efficiency-before">手動管理</div>
+        <div class="efficiency-after">自動</div>
+        <div class="efficiency-label">ステータス管理・<br>対応漏れ防止</div>
+        <div class="efficiency-arrow">▼ リスク最小化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2 id="cta-title">求職者との対話に、<br>もっと時間を。</h2>
+      <p id="cta-desc">HR-Agent-OSが、管理業務からあなたを解放します。<br>まずは無料デモでその効果をお確かめください。</p>
+      <a href="#" class="btn-primary">無料デモを予約する →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-logo">HR-Agent-<span>OS</span></div>
+    <div class="footer-copy">© 2026 HR-Agent-OS. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+reveals.forEach(el => observer.observe(el));
+
+// ===== LP VARIANT SWITCHING =====
+const variants = {
+  default: {
+    title: 'HR-Agent-OS | 管理をゼロに、対話を最大に。',
+    heroBadge: '人材紹介エージェント向けAI業務OS',
+    heroTitle: '管理をゼロに、',
+    heroAccent: '対話を最大に。',
+    heroDesc: '面談後の入力、煩雑なタスク管理、求人マッチング——<br>「管理コスト」をAIで極限まで削減し、<br>エージェントが求職者と向き合う時間を創出します。',
+    stats: [
+      { number: '60%', label: '管理業務の時間削減' },
+      { number: '1/3', label: 'CRM入力工数の削減' },
+      { number: '5min →', label: '日程調整にかかる時間' },
+      { number: 'AI', label: '求人マッチング自動スコアリング' }
+    ],
+    problemTitle: 'CAの時間は、<br>管理業務に奪われている。',
+    problemDesc: 'キャリアアドバイザーは数多くの求職者を担当するため、同一業務が何度も発生する構造になっています。本来の「対話」の時間が圧迫されています。',
+    workflows: [
+      { color: 'red', label: 'スカウトメール作成 ×100件', time: '17h' },
+      { color: 'orange', label: 'ヒアリング・日程調整・議事録', time: '40h' },
+      { color: 'yellow', label: '応募書類作成・求人提案', time: '23h' },
+      { color: 'orange', label: '書類応募・面接日程・結果共有 ×150件', time: '75h' },
+      { color: 'red', label: 'クロージング・入社対応', time: '7h' }
+    ],
+    problemStats: [
+      { number: '162h', text: '1サイクルあたりの総工数。<br>その大半が繰り返し作業。' },
+      { number: '60%+', text: '入力・調整・確認に費やされる時間の割合。求職者との対話は後回しに。' },
+      { number: '×150件', text: '15名×10選考。同じ業務プロセスが何度も繰り返される。' }
+    ],
+    featuresTitle: 'AIが、管理業務を引き受ける。',
+    featuresDesc: '4つのコア機能で、エージェントの生産性を根本から変えます。',
+    ctaTitle: '求職者との対話に、<br>もっと時間を。',
+    ctaDesc: 'HR-Agent-OSが、管理業務からあなたを解放します。<br>まずは無料デモでその効果をお確かめください。'
+  },
+
+  management: {
+    title: 'HR-Agent-OS | チーム全体が、一目で分かる。',
+    heroBadge: 'マネージャー・経営者向けAI業務管理OS',
+    heroTitle: 'チーム全体が、',
+    heroAccent: '一目で分かる。',
+    heroDesc: '「あのCA、今どの案件を抱えてる？」「今月の着地見込みは？」——<br>報告を待たず、全CAの進捗をリアルタイムで把握。<br>マネジメントに必要な情報を、自動で可視化します。',
+    stats: [
+      { number: 'リアルタイム', label: '全CA進捗の一元把握' },
+      { number: '0件', label: '報告待ち・確認作業' },
+      { number: 'AI', label: 'KPI自動集計・売上予測' },
+      { number: '1画面', label: 'チーム全体のダッシュボード' }
+    ],
+    problemTitle: 'マネジメントの時間は、<br>確認作業に奪われている。',
+    problemDesc: '複数のCAを束ねるマネージャーにとって、最大の課題は「チームの状況が見えない」こと。日々の確認・報告・集計に多くの時間が費やされています。',
+    workflows: [
+      { color: 'red', label: '各CAへの進捗確認 ×5名', time: '8h' },
+      { color: 'orange', label: 'KPI集計・Excel管理', time: '12h' },
+      { color: 'yellow', label: '売上見込み計算・報告書作成', time: '6h' },
+      { color: 'orange', label: '案件アサイン・リバランス調整', time: '5h' },
+      { color: 'red', label: '対応漏れフォロー・火消し対応', time: '4h' }
+    ],
+    problemStats: [
+      { number: '35h', text: '週あたりの確認・集計作業。<br>本来は戦略策定に使うべき時間。' },
+      { number: '属人的', text: 'CA個人のスキルに依存。組織としてのナレッジが蓄積されていない。' },
+      { number: '見えない', text: '案件の進捗・ボトルネック・売上見込みがリアルタイムで把握できない。' }
+    ],
+    featuresTitle: '全体を見渡す、マネジメント機能。',
+    featuresDesc: 'CAの業務データが自動で集約。報告を待たずに、チーム全体を把握できます。',
+    ctaTitle: 'チームの状況を、<br>リアルタイムに。',
+    ctaDesc: 'HR-Agent-OSが、確認・集計・報告の手間を解消します。<br>まずは無料デモでマネジメント機能をお確かめください。'
+  },
+
+  closing: {
+    title: 'HR-Agent-OS | 決定率を、仕組みで上げる。',
+    heroBadge: '売上直結型エージェント支援AI',
+    heroTitle: '決定率を、',
+    heroAccent: '仕組みで上げる。',
+    heroDesc: '面談はできるけど、決定まで持っていけない——<br>CAのスキルに依存しない「売れる仕組み」をAIで構築。<br>初回面談からクロージングまで、最適なアクションを提案します。',
+    stats: [
+      { number: '57%↑', label: '応募承諾率の向上' },
+      { number: '67%↓', label: '新人CA独り立ち期間の短縮' },
+      { number: '140%', label: '導入後の売上成長率' },
+      { number: 'AI', label: 'クロージングまでのアクション提案' }
+    ],
+    problemTitle: '売上は、<br>CAのスキルに依存している。',
+    problemDesc: '人材紹介ビジネスの売上は「決定」で生まれます。しかしCAによってスキルはバラバラ。ベテランは高い決定率を誇る一方、経験の浅いCAは面談止まり——この構造が売上の天井を作っています。',
+    workflows: [
+      { color: 'red', label: '面談後のフォロー漏れ → 機会損失', time: '損失大' },
+      { color: 'orange', label: '温度感の見極めミス → 辞退増加', time: '損失中' },
+      { color: 'yellow', label: '条件交渉タイミングの逸失 → 長期化', time: '損失中' },
+      { color: 'orange', label: '求職者の他社決定 → 歩留まり低下', time: '損失大' },
+      { color: 'red', label: '新人CAの育成に6ヶ月 → 教育コスト', time: '高コスト' }
+    ],
+    problemStats: [
+      { number: '2-3倍', text: 'ベテランと新人の決定率の差。<br>属人化が最大のボトルネック。' },
+      { number: '6ヶ月', text: '新人CAが独り立ちするまでの平均期間。教育コストが経営を圧迫。' },
+      { number: '35%', text: '平均的なCAの応募承諾率。<br>提案の質次第で大きく改善可能。' }
+    ],
+    featuresTitle: 'AIが、決定までの道筋を描く。',
+    featuresDesc: '提案の質を飛躍的に向上させ、CAのスキルに関係なく成果を出す仕組みを実現します。',
+    ctaTitle: 'CAのスキルに依存しない、<br>売上の仕組みを。',
+    ctaDesc: 'HR-Agent-OSが、決定率を仕組みで引き上げます。<br>まずは無料デモでクロージング支援機能をお確かめください。'
+  },
+
+  ai: {
+    title: 'HR-Agent-OS | 設定不要で、すぐ使えるAI。',
+    heroBadge: '人材紹介業務 特化型AIアシスタント',
+    heroTitle: '設定不要で、',
+    heroAccent: 'すぐ使えるAI。',
+    heroDesc: 'プロンプト設計、コンテキスト設定、社員への教育——<br>「AIツールを入れても使われない」問題を根本から解決。<br>人材紹介に特化したAIが、業務フローに自然と溶け込みます。',
+    stats: [
+      { number: '0', label: '必要な事前設定の数' },
+      { number: '90%↓', label: 'AI導入にかかる教育コスト' },
+      { number: '即日', label: '利用開始までの期間' },
+      { number: '特化型', label: '人材紹介業務に最適化済み' }
+    ],
+    problemTitle: 'AIツールは、<br>導入しても使われない。',
+    problemDesc: '「AI活用しよう」という号令は簡単です。しかし実際には、プロンプトの書き方が分からない、社員ごとに使い方がバラバラ、結局元のやり方に戻る——汎用AIツールの導入は失敗に終わりがちです。',
+    workflows: [
+      { color: 'red', label: 'プロンプト設計に試行錯誤', time: '20h' },
+      { color: 'orange', label: '社員向けマニュアル作成・配布', time: '15h' },
+      { color: 'yellow', label: '利用促進の声かけ・教育研修', time: '10h' },
+      { color: 'orange', label: '「使われない」ツールの運用保守', time: '8h' },
+      { color: 'red', label: 'コンテキスト設計のやり直し', time: '12h' }
+    ],
+    problemStats: [
+      { number: '70%', text: '導入したAIツールが定着しない割合。<br>汎用ツールの構造的な限界。' },
+      { number: '65h', text: 'AI導入準備・教育の月間工数。<br>本末転倒のコスト構造。' },
+      { number: '0件', text: 'HR-Agent-OSで必要な事前設定の数。<br>最初から業務に特化。' }
+    ],
+    featuresTitle: '業務に溶け込む、特化型AI。',
+    featuresDesc: '設定不要。面談すれば自動サマリー、求人を入れれば自動マッチング。AIを「使う」のではなく、AIが「動く」。',
+    ctaTitle: 'AI導入の悩みから、<br>解放されよう。',
+    ctaDesc: 'HR-Agent-OSなら、設定もマニュアルもいりません。<br>まずは無料デモでAI体験をお確かめください。'
+  }
+};
+
+function applyVariant(key) {
+  const v = variants[key] || variants['default'];
+  document.title = v.title;
+  document.getElementById('hero-badge').textContent = v.heroBadge;
+  document.getElementById('hero-title').innerHTML = v.heroTitle;
+  document.getElementById('hero-accent').textContent = v.heroAccent;
+  document.getElementById('hero-desc').innerHTML = v.heroDesc;
+
+  // Social proof stats
+  const statsEl = document.getElementById('social-proof-stats');
+  statsEl.innerHTML = v.stats.map(s =>
+    `<div class="stat-item"><span class="stat-number">${s.number}</span><span class="stat-label">${s.label}</span></div>`
+  ).join('');
+
+  // Problem section
+  document.getElementById('problem-title').innerHTML = v.problemTitle;
+  document.getElementById('problem-desc').innerHTML = v.problemDesc;
+
+  const visualEl = document.getElementById('problem-visual');
+  visualEl.innerHTML = v.workflows.map(w =>
+    `<div class="workflow-item"><span class="workflow-dot ${w.color}"></span><span class="workflow-label">${w.label}</span><span class="workflow-time">${w.time}</span></div>`
+  ).join('');
+
+  const pStatsEl = document.getElementById('problem-stats');
+  pStatsEl.innerHTML = v.problemStats.map(s =>
+    `<div class="problem-stat-card"><div class="problem-stat-number">${s.number}</div><div class="problem-stat-text">${s.text}</div></div>`
+  ).join('');
+
+  // Features header
+  document.getElementById('features-title').innerHTML = v.featuresTitle;
+  document.getElementById('features-desc').innerHTML = v.featuresDesc;
+
+  // CTA
+  document.getElementById('cta-title').innerHTML = v.ctaTitle;
+  document.getElementById('cta-desc').innerHTML = v.ctaDesc;
+}
+
+// Apply variant from query parameter (?id=xxx)
+const variantId = new URLSearchParams(location.search).get('id') || 'default';
+applyVariant(variantId);
+</script>
+
+</body>
+</html>
