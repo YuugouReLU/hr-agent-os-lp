@@ -935,6 +935,44 @@ footer .container {
   </div>
 </section>
 
+<!-- EFFICIENCY -->
+<section class="efficiency">
+  <div class="container">
+    <div style="text-align: center; position: relative; z-index: 1;">
+      <div class="section-eyebrow">Impact</div>
+      <div class="section-title">AI導入で、時間が変わる。</div>
+      <div class="section-desc" style="margin: 0 auto;">各業務プロセスにおける削減効果</div>
+    </div>
+
+    <div class="efficiency-grid" style="position: relative; z-index: 1;">
+      <div class="efficiency-card reveal">
+        <div class="efficiency-before">10分 / 件</div>
+        <div class="efficiency-after">1 min</div>
+        <div class="efficiency-label">議事録作成・<br>CRM入力</div>
+        <div class="efficiency-arrow">▼ 90% 削減</div>
+      </div>
+      <div class="efficiency-card reveal">
+        <div class="efficiency-before">5分 / 件</div>
+        <div class="efficiency-after">1 click</div>
+        <div class="efficiency-label">日程調整</div>
+        <div class="efficiency-arrow">▼ ほぼゼロに</div>
+      </div>
+      <div class="efficiency-card reveal">
+        <div class="efficiency-before">60分 / 人</div>
+        <div class="efficiency-after">10 min</div>
+        <div class="efficiency-label">求人提案・<br>マッチング</div>
+        <div class="efficiency-arrow">▼ 83% 削減</div>
+      </div>
+      <div class="efficiency-card reveal">
+        <div class="efficiency-before">手動管理</div>
+        <div class="efficiency-after">自動</div>
+        <div class="efficiency-label">ステータス管理・<br>対応漏れ防止</div>
+        <div class="efficiency-arrow">▼ リスク最小化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FEATURES -->
 <section class="features" id="features">
   <div class="container">
@@ -1084,44 +1122,6 @@ footer .container {
         <div class="step-number">03</div>
         <div class="step-title">運用開始</div>
         <div class="step-desc">AIが学習を開始。使うほどマッチング精度が向上し、業務効率が加速します。</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EFFICIENCY -->
-<section class="efficiency">
-  <div class="container">
-    <div style="text-align: center; position: relative; z-index: 1;">
-      <div class="section-eyebrow">Impact</div>
-      <div class="section-title">AI導入で、時間が変わる。</div>
-      <div class="section-desc" style="margin: 0 auto;">各業務プロセスにおける削減効果</div>
-    </div>
-
-    <div class="efficiency-grid" style="position: relative; z-index: 1;">
-      <div class="efficiency-card reveal">
-        <div class="efficiency-before">10分 / 件</div>
-        <div class="efficiency-after">1 min</div>
-        <div class="efficiency-label">議事録作成・<br>CRM入力</div>
-        <div class="efficiency-arrow">▼ 90% 削減</div>
-      </div>
-      <div class="efficiency-card reveal">
-        <div class="efficiency-before">5分 / 件</div>
-        <div class="efficiency-after">1 click</div>
-        <div class="efficiency-label">日程調整</div>
-        <div class="efficiency-arrow">▼ ほぼゼロに</div>
-      </div>
-      <div class="efficiency-card reveal">
-        <div class="efficiency-before">60分 / 人</div>
-        <div class="efficiency-after">10 min</div>
-        <div class="efficiency-label">求人提案・<br>マッチング</div>
-        <div class="efficiency-arrow">▼ 83% 削減</div>
-      </div>
-      <div class="efficiency-card reveal">
-        <div class="efficiency-before">手動管理</div>
-        <div class="efficiency-after">自動</div>
-        <div class="efficiency-label">ステータス管理・<br>対応漏れ防止</div>
-        <div class="efficiency-arrow">▼ リスク最小化</div>
       </div>
     </div>
   </div>
@@ -1334,8 +1334,32 @@ function applyVariant(key) {
 }
 
 // Apply variant from query parameter (?id=xxx)
-const variantId = new URLSearchParams(location.search).get('id') || 'default';
+const params = new URLSearchParams(location.search);
+const variantId = params.get('id') || 'default';
 applyVariant(variantId);
+
+// ===== TRACKING =====
+// tid（トラッキングID）が付与されている場合、GASにアクセスログを送信
+// GAS_ENDPOINT を実際のデプロイURLに書き換えてください
+const GAS_ENDPOINT = 'https://script.google.com/a/macros/relu-branch.com/s/AKfycbxdtiiFkkurqN2YCtnfDdNWt0PuNhk--kYkVyRjDf_LsmMwywMC3BeQrFpGE7BVbIMS/exec';
+
+const tid = params.get('tid');
+if (tid && GAS_ENDPOINT !== 'YOUR_GAS_WEB_APP_URL_HERE') {
+  const payload = {
+    tid: tid,
+    variant: variantId,
+    timestamp: new Date().toISOString(),
+    url: location.href,
+    referrer: document.referrer || '',
+    ua: navigator.userAgent
+  };
+  fetch(GAS_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+}
 </script>
 
 </body>
