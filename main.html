@@ -821,7 +821,246 @@ footer .container {
   .cta-box { padding: 60px 32px; }
   footer .container { flex-direction: column; gap: 16px; text-align: center; }
 }
+/* ===== AIO PASSAGE ===== */
+.aio-passage {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--c-text-sub);
+  max-width: 700px;
+  margin-top: 12px;
+}
+.efficiency .aio-passage {
+  color: rgba(255,255,255,0.6);
+  margin: 12px auto 0;
+  text-align: center;
+}
+
+/* ===== FAQ ===== */
+.faq {
+  padding: 120px 0;
+  background: var(--c-surface-alt);
+}
+.faq-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.faq-item {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  transition: all 0.3s;
+}
+.faq-item:hover {
+  border-color: var(--c-accent);
+  box-shadow: 0 4px 20px var(--c-accent-glow);
+}
+.faq-question {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-primary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.faq-question::before {
+  content: 'Q';
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--c-accent);
+  background: var(--c-accent-glow);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.faq-answer {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--c-text-sub);
+  padding-left: 40px;
+}
 </style>
+
+<!-- Structured Data: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "HR-Agent-OS",
+  "url": "https://relu-branch.com",
+  "description": "人材紹介エージェント向けAI業務OS。管理業務を自動化し、求職者との対話時間を最大化します。",
+  "dateModified": "2026-03-04"
+}
+</script>
+
+<!-- Structured Data: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "HR-Agent-OS",
+  "url": "https://relu-branch.com",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": "人材紹介エージェント向けAI業務OS。AI面談サマリー、スマートマッチング、オート日程調整、タスクベース実態管理の4つのコア機能を提供。",
+  "dateModified": "2026-03-04",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "JPY",
+    "description": "無料デモ利用可能"
+  }
+}
+</script>
+
+<!-- Structured Data: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "dateModified": "2026-03-04",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "HR-Agent-OSとは何ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HR-Agent-OSは、人材紹介エージェント向けのAI業務OSです。面談後の入力、タスク管理、求人マッチングなどの管理業務をAIで自動化し、エージェントが求職者と向き合う時間を創出します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "導入にどのくらい時間がかかりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "最短1週間で運用開始できます。ヒアリングで現在のワークフローを把握し、既存のカレンダー・CRMと連携設定を行うだけで導入完了です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "どのCRM・カレンダーと連携できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Googleカレンダー、Outlook等の主要カレンダーサービスと連携可能です。CRMについても主要なサービスとの連携に対応しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI面談サマリーはどのように機能しますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "面談メモや文字起こしから、スキル・希望条件を自動抽出します。CRMへの入力を自動化し、アップデート箇所のみハイライト表示するため、確認するだけで完了します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "スマートマッチングの精度はどのくらいですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "抽出されたスキル・希望条件データに基づき、求人との適合度をスコアリングします。マッチ理由と懸念点も自動提示し、使うほどAIが学習して精度が向上します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "料金体系を教えてください。",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ご利用人数や機能に応じたプランをご用意しています。まずは無料デモでお試しいただき、詳細な料金は個別にご案内いたします。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "データのセキュリティは大丈夫ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "個人情報保護法に準拠したセキュリティ対策を実施しています。データの暗号化、アクセス制御、定期的なセキュリティ監査を行っています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "既存の業務フローを変える必要がありますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "いいえ。HR-Agent-OSは既存の業務フローに自然と溶け込むよう設計されています。設定不要で、面談すれば自動サマリー、求人を入れれば自動マッチングが動きます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "どのくらいの業務時間削減が見込めますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "導入企業の実績では、管理業務の時間を60%削減、CRM入力工数を1/3に削減、日程調整を5分以内に短縮しています。議事録作成・CRM入力は90%削減を実現しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "無料デモではどのような体験ができますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "実際の業務データを使って、AI面談サマリー、スマートマッチング、オート日程調整の機能を体験いただけます。導入効果のシミュレーションもご提供します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "サポート体制はどうなっていますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "導入時の設定支援から運用開始後のサポートまで、専任のカスタマーサクセスチームが伴走します。チャット・メールでのサポートに加え、定期的な活用レビューも実施しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "小規模なチームでも導入できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、1名からでもご利用いただけます。小規模チームでも管理業務の負担は大きいため、むしろ少人数ほど導入効果を実感しやすい傾向があります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "新人CAの育成にも効果がありますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい。AIがベテランCAのノウハウを学習し、最適なアクションを提案するため、新人CAの独り立ち期間を大幅に短縮できます。属人化の解消にも貢献します。"
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Structured Data: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ホーム",
+      "item": "https://relu-branch.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "HR-Agent-OS",
+      "item": "https://relu-branch.com/hr-agent-os-lp/"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -883,10 +1122,11 @@ footer .container {
 <section class="problem" id="problem">
   <div class="container">
     <div class="section-eyebrow">Problem</div>
-    <div class="section-title" id="problem-title">CAの時間は、<br>管理業務に奪われている。</div>
+    <h2 class="section-title" id="problem-title">CAの時間は、<br>管理業務に奪われている。</h2>
     <div class="section-desc" id="problem-desc">
       キャリアアドバイザーは数多くの求職者を担当するため、同一業務が何度も発生する構造になっています。本来の「対話」の時間が圧迫されています。
     </div>
+    <div class="aio-passage">キャリアアドバイザー（CA）は1サイクルあたり162時間の工数を費やし、そのうち60%以上が入力・調整・確認といった管理業務です。15名の求職者×10選考で150件もの同一プロセスが繰り返されます。</div>
 
     <div class="problem-grid reveal">
       <div class="problem-visual" id="problem-visual">
@@ -940,8 +1180,9 @@ footer .container {
   <div class="container">
     <div style="text-align: center; position: relative; z-index: 1;">
       <div class="section-eyebrow">Impact</div>
-      <div class="section-title">AI導入で、時間が変わる。</div>
+      <h2 class="section-title">AI導入で、時間が変わる。</h2>
       <div class="section-desc" style="margin: 0 auto;">各業務プロセスにおける削減効果</div>
+      <div class="aio-passage">HR-Agent-OSの導入により、議事録作成・CRM入力は90%削減（10分→1分）、日程調整はワンクリックで完了、求人マッチングは83%の時間削減（60分→10分）を実現します。</div>
     </div>
 
     <div class="efficiency-grid" style="position: relative; z-index: 1;">
@@ -978,8 +1219,9 @@ footer .container {
   <div class="container">
     <div class="features-header">
       <div class="section-eyebrow">Features</div>
-      <div class="section-title" id="features-title">AIが、管理業務を引き受ける。</div>
+      <h2 class="section-title" id="features-title">AIが、管理業務を引き受ける。</h2>
       <div class="section-desc" id="features-desc">4つのコア機能で、エージェントの生産性を根本から変えます。</div>
+      <div class="aio-passage">HR-Agent-OSは、AI面談サマリー、スマートマッチング、オート日程調整、タスクベース実態管理の4つのコア機能で管理業務を自動化し、エージェントの生産性を根本から変えます。</div>
     </div>
 
     <!-- Feature 1: AI面談サマリー -->
@@ -1105,7 +1347,8 @@ footer .container {
   <div class="container">
     <div style="text-align: center;">
       <div class="section-eyebrow">How It Works</div>
-      <div class="section-title">シンプルな3ステップで導入</div>
+      <h2 class="section-title">シンプルな3ステップで導入</h2>
+      <div class="aio-passage">HR-Agent-OSの導入は3ステップで完了します。ヒアリングで現在のワークフローと課題を把握し、既存のカレンダー・CRMとセットアップ連携後、最短1週間で運用を開始できます。</div>
     </div>
     <div class="steps-container">
       <div class="step-card reveal">
@@ -1126,6 +1369,73 @@ footer .container {
     </div>
   </div>
 </section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-header">
+      <div class="section-eyebrow">FAQ</div>
+      <h2 class="section-title">よくある質問</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question">HR-Agent-OSとは何ですか？</div>
+        <div class="faq-answer">HR-Agent-OSは、人材紹介エージェント向けのAI業務OSです。面談後の入力、タスク管理、求人マッチングなどの管理業務をAIで自動化し、エージェントが求職者と向き合う時間を創出します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">導入にどのくらい時間がかかりますか？</div>
+        <div class="faq-answer">最短1週間で運用開始できます。ヒアリングで現在のワークフローを把握し、既存のカレンダー・CRMと連携設定を行うだけで導入完了です。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">どのCRM・カレンダーと連携できますか？</div>
+        <div class="faq-answer">Googleカレンダー、Outlook等の主要カレンダーサービスと連携可能です。CRMについても主要なサービスとの連携に対応しています。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">AI面談サマリーはどのように機能しますか？</div>
+        <div class="faq-answer">面談メモや文字起こしから、スキル・希望条件を自動抽出します。CRMへの入力を自動化し、アップデート箇所のみハイライト表示するため、確認するだけで完了します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">スマートマッチングの精度はどのくらいですか？</div>
+        <div class="faq-answer">抽出されたスキル・希望条件データに基づき、求人との適合度をスコアリングします。マッチ理由と懸念点も自動提示し、使うほどAIが学習して精度が向上します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">料金体系を教えてください。</div>
+        <div class="faq-answer">ご利用人数や機能に応じたプランをご用意しています。まずは無料デモでお試しいただき、詳細な料金は個別にご案内いたします。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">データのセキュリティは大丈夫ですか？</div>
+        <div class="faq-answer">個人情報保護法に準拠したセキュリティ対策を実施しています。データの暗号化、アクセス制御、定期的なセキュリティ監査を行っています。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">既存の業務フローを変える必要がありますか？</div>
+        <div class="faq-answer">いいえ。HR-Agent-OSは既存の業務フローに自然と溶け込むよう設計されています。設定不要で、面談すれば自動サマリー、求人を入れれば自動マッチングが動きます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">どのくらいの業務時間削減が見込めますか？</div>
+        <div class="faq-answer">導入企業の実績では、管理業務の時間を60%削減、CRM入力工数を1/3に削減、日程調整を5分以内に短縮しています。議事録作成・CRM入力は90%削減を実現しています。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">無料デモではどのような体験ができますか？</div>
+        <div class="faq-answer">実際の業務データを使って、AI面談サマリー、スマートマッチング、オート日程調整の機能を体験いただけます。導入効果のシミュレーションもご提供します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">サポート体制はどうなっていますか？</div>
+        <div class="faq-answer">導入時の設定支援から運用開始後のサポートまで、専任のカスタマーサクセスチームが伴走します。チャット・メールでのサポートに加え、定期的な活用レビューも実施しています。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">小規模なチームでも導入できますか？</div>
+        <div class="faq-answer">はい、1名からでもご利用いただけます。小規模チームでも管理業務の負担は大きいため、むしろ少人数ほど導入効果を実感しやすい傾向があります。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">新人CAの育成にも効果がありますか？</div>
+        <div class="faq-answer">はい。AIがベテランCAのノウハウを学習し、最適なアクションを提案するため、新人CAの独り立ち期間を大幅に短縮できます。属人化の解消にも貢献します。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OGP Image for multimodal -->
+<img src="https://relu-branch.com/hr-agent-os-lp/og-image.png" alt="HR-Agent-OS: 人材紹介エージェント向けAI業務OS - 管理をゼロに、対話を最大に" width="1" height="1" style="position:absolute;opacity:0;" loading="lazy">
 
 <!-- CTA -->
 <section class="cta" id="cta">
